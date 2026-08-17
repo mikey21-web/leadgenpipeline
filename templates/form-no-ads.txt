@@ -1,0 +1,13 @@
+Subject: {{COMPANY}} — what happens after someone fills your form?
+
+Hey {{FIRST_NAME}},
+
+{{COMPANY}} has a contact form on the site — but I couldn't find any automated follow-up in place after someone submits it.
+
+Most businesses lose 60–70% of form leads just from response time. Someone fills in their details, expects a call within a few minutes, and if nothing comes — they've already moved on to the next option.
+
+We built an AI voice agent that calls every form submission within 5 seconds, any time of day. It introduces itself, asks a few qualifying questions, and books a time directly into your calendar.
+
+Would a quick demo make sense?
+
+{{SENDER_NAME}}

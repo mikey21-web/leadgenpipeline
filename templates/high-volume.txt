@@ -1,0 +1,13 @@
+Subject: Handling inbound at {{COMPANY}}?
+
+Hey {{FIRST_NAME}},
+
+{{COMPANY}} is clearly doing solid volume — {{VOLUME_SIGNAL}}.
+
+At that scale, manually handling every inbound inquiry is a real bottleneck. Someone has to be available to respond fast, and most businesses at that level are either missing leads or paying people to catch them.
+
+We built an AI voice agent that takes that off your plate — calls every new inquiry within 5 seconds, qualifies them, and books appointments automatically.
+
+15 minutes this week to see how it works?
+
+{{SENDER_NAME}}

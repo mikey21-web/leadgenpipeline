@@ -1,0 +1,13 @@
+Subject: AI voice agent for {{COMPANY}}
+
+Hey {{FIRST_NAME}},
+
+Quick question — how is {{COMPANY}} currently handling inbound leads and follow-up?
+
+Most {{INDUSTRY}} businesses we talk to are losing a significant chunk of leads just from slow response time. People reach out, expect a call fast, and move on if nothing comes.
+
+We built an AI voice agent that solves exactly that — calls new leads within 5 seconds, qualifies them, and books appointments automatically. No human needed on the first touch.
+
+Worth a 15-minute call to see if it fits?
+
+{{SENDER_NAME}}

@@ -6,135 +6,112 @@
 <title>Lead Gen Pipeline</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg:       #0d1117;
-    --surface:  #161b22;
-    --border:   #30363d;
-    --text:     #e6edf3;
-    --muted:    #8b949e;
-    --accent:   #10b981;
-    --accent2:  #059669;
-    --danger:   #f85149;
-    --warn:     #f0883e;
-    --blue:     #58a6ff;
+    --bg:#0d1117; --surface:#161b22; --border:#30363d;
+    --text:#e6edf3; --muted:#8b949e; --accent:#10b981; --accent2:#059669;
+    --danger:#f85149; --warn:#f0883e; --blue:#58a6ff; --purple:#bc8cff;
   }
-
-  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; min-height: 100vh; }
-
-  header { border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; gap: 12px; }
-  header h1 { font-size: 16px; font-weight: 600; }
-  header .badge { font-size: 11px; background: var(--accent); color: #000; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
-
-  .layout { display: grid; grid-template-columns: 360px 1fr; height: calc(100vh - 53px); }
-
-  /* ── Left panel ── */
-  .panel { padding: 20px; overflow-y: auto; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 16px; }
-
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-  .card-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 12px; }
-
-  label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; margin-top: 10px; }
-  label:first-child { margin-top: 0; }
-
-  input[type=text], input[type=password], input[type=number], select, textarea {
-    width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
-    border-radius: 6px; padding: 8px 10px; font-size: 13px; outline: none; transition: border-color .15s;
-    font-family: inherit;
+  body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:14px; min-height:100vh; }
+  header { border-bottom:1px solid var(--border); padding:14px 24px; display:flex; align-items:center; gap:10px; }
+  header h1 { font-size:15px; font-weight:600; }
+  .badge { font-size:11px; background:var(--accent); color:#000; padding:2px 8px; border-radius:20px; font-weight:600; }
+  .layout { display:grid; grid-template-columns:340px 1fr; height:calc(100vh - 49px); }
+  .panel { padding:18px; overflow-y:auto; border-right:1px solid var(--border); display:flex; flex-direction:column; gap:14px; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:14px; }
+  .card-title { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:10px; }
+  label { display:block; font-size:12px; color:var(--muted); margin-bottom:4px; margin-top:9px; }
+  label:first-child { margin-top:0; }
+  input[type=text],input[type=password],input[type=number],input[type=email],select,textarea {
+    width:100%; background:var(--bg); border:1px solid var(--border); color:var(--text);
+    border-radius:6px; padding:7px 10px; font-size:13px; outline:none; transition:border-color .15s; font-family:inherit;
   }
-  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
-  textarea { resize: vertical; min-height: 80px; }
-
-  .drop-zone {
-    border: 2px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center;
-    cursor: pointer; transition: border-color .2s, background .2s; position: relative;
-  }
-  .drop-zone:hover, .drop-zone.over { border-color: var(--accent); background: rgba(16,185,129,.05); }
-  .drop-zone.has-file { border-color: var(--accent); border-style: solid; }
-  .drop-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-  .drop-zone .drop-label { font-size: 12px; color: var(--muted); pointer-events: none; }
-  .drop-zone .drop-name { font-size: 12px; color: var(--accent); font-weight: 500; margin-top: 4px; }
-  .drop-icon { font-size: 24px; margin-bottom: 6px; }
-
-  .toggle-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-  .toggle { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
-  .toggle input { opacity: 0; width: 0; height: 0; }
-  .toggle-slider { position: absolute; inset: 0; background: var(--border); border-radius: 20px; cursor: pointer; transition: .2s; }
-  .toggle-slider::before { content: ""; position: absolute; height: 14px; width: 14px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: .2s; }
-  .toggle input:checked + .toggle-slider { background: var(--accent); }
-  .toggle input:checked + .toggle-slider::before { transform: translateX(16px); }
-
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-  .btn {
-    width: 100%; padding: 10px; border-radius: 8px; border: none; cursor: pointer;
-    font-size: 14px; font-weight: 600; transition: .15s; letter-spacing: .02em;
-  }
-  .btn-primary { background: var(--accent); color: #000; }
-  .btn-primary:hover { background: var(--accent2); }
-  .btn-primary:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
-
-  /* ── Right panel ── */
-  .results { padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
-
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; }
-  .stat-val { font-size: 24px; font-weight: 700; color: var(--accent); }
-  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-  .progress-bar-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
-  .progress-bar-track { background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; margin-top: 8px; }
-  .progress-bar-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width .3s; width: 0%; }
-  .progress-label { font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; }
-
-  /* Table */
-  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-  table { width: 100%; border-collapse: collapse; }
-  th { padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); border-bottom: 1px solid var(--border); background: var(--bg); }
-  td { padding: 10px 14px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  tr:last-child td { border-bottom: none; }
-  tr.clickable { cursor: pointer; }
-  tr.clickable:hover td { background: rgba(16,185,129,.05); }
-  tr.selected td { background: rgba(16,185,129,.08); }
-
-  .score-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-weight: 700; font-size: 12px; }
-  .score-high { background: rgba(16,185,129,.15); color: var(--accent); }
-  .score-mid  { background: rgba(240,136,62,.12); color: var(--warn); }
-  .score-low  { background: rgba(139,148,158,.12); color: var(--muted); }
-
-  .signal-pill { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 10px; margin: 1px; background: rgba(88,166,255,.1); color: var(--blue); border: 1px solid rgba(88,166,255,.2); }
-
+  input:focus,select:focus,textarea:focus { border-color:var(--accent); }
+  textarea { resize:vertical; min-height:72px; }
+  .drop-zone { border:2px dashed var(--border); border-radius:8px; padding:16px; text-align:center; cursor:pointer; transition:.2s; position:relative; }
+  .drop-zone:hover,.drop-zone.over { border-color:var(--accent); background:rgba(16,185,129,.05); }
+  .drop-zone.has-file { border-color:var(--accent); border-style:solid; }
+  .drop-zone input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+  .drop-label { font-size:12px; color:var(--muted); pointer-events:none; }
+  .drop-name { font-size:12px; color:var(--accent); font-weight:500; margin-top:3px; }
+  .drop-icon { font-size:20px; margin-bottom:4px; }
+  .toggle-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .toggle { position:relative; width:36px; height:20px; flex-shrink:0; }
+  .toggle input { opacity:0; width:0; height:0; }
+  .toggle-slider { position:absolute; inset:0; background:var(--border); border-radius:20px; cursor:pointer; transition:.2s; }
+  .toggle-slider::before { content:""; position:absolute; height:14px; width:14px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:.2s; }
+  .toggle input:checked+.toggle-slider { background:var(--accent); }
+  .toggle input:checked+.toggle-slider::before { transform:translateX(16px); }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .btn { width:100%; padding:9px; border-radius:8px; border:none; cursor:pointer; font-size:13px; font-weight:600; transition:.15s; }
+  .btn-primary { background:var(--accent); color:#000; }
+  .btn-primary:hover { background:var(--accent2); }
+  .btn-primary:disabled { background:var(--border); color:var(--muted); cursor:not-allowed; }
+  .provider-tabs { display:flex; gap:6px; margin-bottom:10px; }
+  .provider-tab { flex:1; padding:5px; border:1px solid var(--border); border-radius:6px; background:transparent; color:var(--muted); cursor:pointer; font-size:12px; font-weight:500; transition:.15s; text-align:center; }
+  .provider-tab.active { border-color:var(--accent); color:var(--accent); background:rgba(16,185,129,.08); }
+  #llm-fields { display:none; }
+  #llm-fields.visible { display:block; }
+  /* Results */
+  .results { padding:18px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; }
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  .stat { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; text-align:center; }
+  .stat-val { font-size:22px; font-weight:700; color:var(--accent); }
+  .stat-label { font-size:11px; color:var(--muted); margin-top:2px; }
+  .progress-bar-wrap { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; }
+  .progress-bar-track { background:var(--border); border-radius:4px; height:5px; overflow:hidden; margin-top:7px; }
+  .progress-bar-fill { height:100%; background:var(--accent); border-radius:4px; transition:width .3s; width:0%; }
+  .progress-label { font-size:12px; color:var(--muted); display:flex; justify-content:space-between; }
+  .table-wrap { background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  table { width:100%; border-collapse:collapse; }
+  th { padding:9px 12px; text-align:left; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); border-bottom:1px solid var(--border); background:var(--bg); }
+  td { padding:9px 12px; font-size:13px; border-bottom:1px solid var(--border); vertical-align:middle; }
+  tr:last-child td { border-bottom:none; }
+  .score-badge { display:inline-block; padding:2px 8px; border-radius:20px; font-weight:700; font-size:12px; }
+  .score-high { background:rgba(16,185,129,.15); color:var(--accent); }
+  .score-mid  { background:rgba(240,136,62,.12); color:var(--warn); }
+  .score-low  { background:rgba(139,148,158,.12); color:var(--muted); }
+  .signal-pill { display:inline-block; font-size:10px; padding:1px 6px; border-radius:10px; margin:1px; background:rgba(88,166,255,.1); color:var(--blue); border:1px solid rgba(88,166,255,.2); }
+  /* Action buttons per row */
+  .action-btns { display:flex; gap:4px; flex-wrap:wrap; }
+  .act { padding:3px 10px; border-radius:4px; border:1px solid; font-size:11px; font-weight:500; cursor:pointer; transition:.15s; background:transparent; white-space:nowrap; }
+  .act-preview { border-color:var(--border); color:var(--muted); }
+  .act-preview:hover { border-color:var(--blue); color:var(--blue); }
+  .act-send { border-color:var(--accent); color:var(--accent); }
+  .act-send:hover { background:rgba(16,185,129,.1); }
+  .act-skip { border-color:var(--border); color:var(--muted); }
+  .act-skip:hover { border-color:var(--danger); color:var(--danger); }
+  .act-replied { border-color:var(--warn); color:var(--warn); }
+  .act-replied:hover { background:rgba(240,136,62,.1); }
+  .act-booked { border-color:var(--purple); color:var(--purple); }
+  .act-booked:hover { background:rgba(188,140,255,.1); }
+  .outcome-chip { font-size:10px; padding:2px 7px; border-radius:10px; font-weight:600; }
+  .chip-sent    { background:rgba(88,166,255,.15); color:var(--blue); }
+  .chip-replied { background:rgba(240,136,62,.15); color:var(--warn); }
+  .chip-booked  { background:rgba(188,140,255,.15); color:var(--purple); }
+  .chip-skipped { background:rgba(139,148,158,.12); color:var(--muted); }
   /* Email preview */
-  .email-preview { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-  .email-preview h3 { font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
-  .email-header { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; margin-bottom: 12px; }
-  .email-header p { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
-  .email-header p span { color: var(--text); }
-  .email-body-text { font-size: 13px; line-height: 1.7; white-space: pre-wrap; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 14px; }
-  .copy-btn { margin-top: 10px; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; font-size: 12px; transition: .15s; }
-  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
-  .empty-state .empty-icon { font-size: 40px; margin-bottom: 12px; }
-  .empty-state p { font-size: 13px; }
-
-  .dl-btn { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; transition: .15s; }
-  .dl-btn:hover { background: rgba(16,185,129,.1); }
-
-  .error-chip { font-size: 11px; color: var(--danger); background: rgba(248,81,73,.08); padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 2px; }
-
-  #llm-fields { display: none; }
-  #llm-fields.visible { display: block; }
-
-  .provider-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
-  .provider-tab { flex: 1; padding: 6px; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; font-size: 12px; font-weight: 500; transition: .15s; text-align: center; }
-  .provider-tab.active { border-color: var(--accent); color: var(--accent); background: rgba(16,185,129,.08); }
-
-  @media (max-width: 900px) {
-    .layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; height: auto; }
-    .panel { border-right: none; border-bottom: 1px solid var(--border); }
-    .stats { grid-template-columns: repeat(2, 1fr); }
-  }
+  .email-preview { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:18px; }
+  .email-preview h3 { font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:10px; }
+  .email-header { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:10px; margin-bottom:10px; }
+  .email-header p { font-size:12px; color:var(--muted); margin-bottom:3px; }
+  .email-header p span { color:var(--text); }
+  .email-body-text { font-size:13px; line-height:1.7; white-space:pre-wrap; color:var(--text); background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:12px; }
+  .preview-actions { display:flex; gap:8px; margin-top:10px; }
+  .copy-btn,.send-preview-btn { padding:6px 14px; border-radius:6px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; font-size:12px; transition:.15s; }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .send-preview-btn { border-color:var(--accent); color:var(--accent); }
+  .send-preview-btn:hover { background:rgba(16,185,129,.1); }
+  .empty-state { text-align:center; padding:60px 20px; color:var(--muted); }
+  .empty-icon { font-size:36px; margin-bottom:10px; }
+  /* Outcome stats bar */
+  .outcome-bar { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .ob-item { text-align:center; }
+  .ob-val { font-size:16px; font-weight:700; }
+  .ob-label { font-size:10px; color:var(--muted); margin-top:1px; }
+  .retune-btn { margin-left:auto; padding:6px 14px; border-radius:6px; border:1px solid var(--purple); color:var(--purple); background:transparent; cursor:pointer; font-size:12px; font-weight:500; transition:.15s; }
+  .retune-btn:hover { background:rgba(188,140,255,.1); }
+  .dl-btn { background:transparent; border:1px solid var(--accent); color:var(--accent); padding:7px 16px; border-radius:8px; cursor:pointer; font-size:13px; font-weight:500; transition:.15s; }
+  .dl-btn:hover { background:rgba(16,185,129,.1); }
 </style>
 </head>
 <body>
@@ -142,15 +119,14 @@
 <header>
   <h1>⚡ Lead Gen Pipeline</h1>
   <span class="badge">AI Voice Agent</span>
-  <div style="margin-left:auto; font-size:12px; color:var(--muted);" id="job-status-badge"></div>
+  <div style="margin-left:auto;font-size:12px;color:var(--muted)" id="job-status-badge"></div>
 </header>
 
 <div class="layout">
 
-  <!-- ── LEFT PANEL ── -->
+  <!-- LEFT PANEL -->
   <div class="panel">
 
-    <!-- CSV Upload -->
     <div class="card">
       <div class="card-title">1 — Contacts CSV</div>
       <div class="drop-zone" id="csv-drop">
@@ -159,59 +135,61 @@
         <div class="drop-label">Drop CSV or click to browse</div>
         <div class="drop-name" id="csv-name"></div>
       </div>
-      <div style="margin-top:8px; font-size:11px; color:var(--muted)">
-        Flexible columns — name, company, website, email, phone, city, country, industry
-      </div>
+      <div style="margin-top:6px;font-size:11px;color:var(--muted)">name, company, website, email, phone, city, country, industry</div>
     </div>
 
-    <!-- Pitch / Problem -->
     <div class="card">
       <div class="card-title">2 — What You're Selling</div>
-      <div class="drop-zone" id="pitch-drop" style="margin-bottom:10px">
-        <input type="file" id="pitch-file" accept=".txt,.md,.pdf" onchange="handleFile('pitch')"/>
+      <div class="drop-zone" id="pitch-drop" style="margin-bottom:8px">
+        <input type="file" id="pitch-file" accept=".txt,.md" onchange="handleFile('pitch')"/>
         <div class="drop-icon">📋</div>
-        <div class="drop-label">Drop pitch deck / doc (txt, md)</div>
+        <div class="drop-label">Drop pitch / doc (txt, md)</div>
         <div class="drop-name" id="pitch-name"></div>
       </div>
-      <label>Or describe your product / problem you solve</label>
-      <textarea id="pitch-text" placeholder="e.g. We sell an AI voice agent that calls inbound leads within 5 seconds. We're targeting real estate agents, restaurants and car dealerships who are losing leads because no one follows up fast enough..."></textarea>
+      <label>Or describe your product</label>
+      <textarea id="pitch-text" placeholder="e.g. We sell an AI voice agent that calls inbound leads within 5 seconds, qualifies them, and books appointments. Targeting real estate agents, restaurants, car dealerships losing leads to slow follow-up..."></textarea>
     </div>
 
-    <!-- LLM Settings -->
     <div class="card">
-      <div class="card-title">3 — LLM Scoring</div>
+      <div class="card-title">3 — LLM Scoring + Email Fill</div>
       <div class="toggle-row">
         <label class="toggle">
           <input type="checkbox" id="use-llm" onchange="toggleLLM()"/>
           <span class="toggle-slider"></span>
         </label>
-        <span style="font-size:13px">Enable AI scoring</span>
-        <span style="font-size:11px; color:var(--muted); margin-left:auto">~$0.003/contact</span>
+        <span style="font-size:13px">Enable AI (smarter scoring + natural emails)</span>
       </div>
       <div id="llm-fields">
         <div class="provider-tabs">
-          <button class="provider-tab active" onclick="setProvider('groq', this)">Groq</button>
-          <button class="provider-tab" onclick="setProvider('deepseek', this)">DeepSeek</button>
+          <button class="provider-tab active" onclick="setProvider('groq',this)">Groq</button>
+          <button class="provider-tab" onclick="setProvider('deepseek',this)">DeepSeek</button>
         </div>
         <label>API Keys <span style="color:var(--accent);font-weight:600" id="key-count-label"></span></label>
-        <textarea id="api-key" rows="4" placeholder="Paste one key per line (or comma-separated)&#10;gsk_key1...&#10;gsk_key2...&#10;gsk_key3...&#10;All 8 keys = 8× free tier throughput" style="font-family:monospace;font-size:11px" oninput="updateKeyCount()"></textarea>
+        <textarea id="api-key" rows="4" placeholder="One key per line — all 8 Gmail accounts = 8× free tier&#10;gsk_key1...&#10;gsk_key2..." style="font-family:monospace;font-size:11px" oninput="updateKeyCount()"></textarea>
         <label>Model</label>
         <select id="llm-model">
-          <option value="llama-3.1-8b-instant">llama-3.1-8b-instant (fast, free tier)</option>
+          <option value="llama-3.1-8b-instant">llama-3.1-8b-instant (free tier)</option>
           <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile (smarter)</option>
           <option value="deepseek-v4-flash" data-provider="deepseek">deepseek-v4-flash</option>
           <option value="deepseek-v4-pro" data-provider="deepseek">deepseek-v4-pro</option>
         </select>
-        <div style="margin-top:8px; font-size:11px; color:var(--muted)">Without key: fast heuristic scoring (still good)</div>
       </div>
     </div>
 
-    <!-- Pipeline Config -->
     <div class="card">
-      <div class="card-title">4 — Pipeline Settings</div>
+      <div class="card-title">4 — Email Sending (Resend)</div>
+      <label>Resend API Key</label>
+      <input type="password" id="resend-key" placeholder="re_…"/>
+      <label>From email</label>
+      <input type="text" id="from-email" placeholder="John Smith &lt;john@yourdomain.com&gt;"/>
+      <div style="margin-top:6px;font-size:11px;color:var(--muted)">Free: 100 emails/day. Domain must be verified in Resend.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">5 — Pipeline Settings</div>
       <div class="row2">
         <div>
-          <label>Qualify threshold (0–10)</label>
+          <label>Qualify threshold</label>
           <input type="number" id="threshold" value="5" min="0" max="10"/>
         </div>
         <div>
@@ -224,24 +202,21 @@
     <button class="btn btn-primary" id="run-btn" onclick="runPipeline()">▶ Run Pipeline</button>
   </div>
 
-  <!-- ── RIGHT PANEL ── -->
+  <!-- RIGHT PANEL -->
   <div class="results" id="results-panel">
 
-    <!-- Empty state -->
     <div class="empty-state" id="empty-state">
       <div class="empty-icon">🎯</div>
-      <p>Upload a CSV and run the pipeline.<br/>Qualified leads will appear here.</p>
+      <p>Upload a CSV and run the pipeline.<br/>Qualified leads appear here with send controls.</p>
     </div>
 
-    <!-- Stats (hidden until run) -->
     <div class="stats" id="stats" style="display:none">
-      <div class="stat"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Total Contacts</div></div>
+      <div class="stat"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Total</div></div>
       <div class="stat"><div class="stat-val" id="stat-done">0</div><div class="stat-label">Researched</div></div>
       <div class="stat"><div class="stat-val" id="stat-qualified">0</div><div class="stat-label">Qualified</div></div>
       <div class="stat"><div class="stat-val" id="stat-rate">0%</div><div class="stat-label">Qualify Rate</div></div>
     </div>
 
-    <!-- Progress -->
     <div class="progress-bar-wrap" id="progress-wrap" style="display:none">
       <div class="progress-label">
         <span id="progress-text">Starting…</span>
@@ -250,7 +225,15 @@
       <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill"></div></div>
     </div>
 
-    <!-- Leads table -->
+    <!-- Outcome stats + retune -->
+    <div class="outcome-bar" id="outcome-bar" style="display:none">
+      <div class="ob-item"><div class="ob-val" id="ob-sent" style="color:var(--blue)">0</div><div class="ob-label">Sent</div></div>
+      <div class="ob-item"><div class="ob-val" id="ob-replied" style="color:var(--warn)">0</div><div class="ob-label">Replied</div></div>
+      <div class="ob-item"><div class="ob-val" id="ob-booked" style="color:var(--purple)">0</div><div class="ob-label">Booked</div></div>
+      <div class="ob-item"><div class="ob-val" id="ob-rate" style="color:var(--accent)">—</div><div class="ob-label">Book Rate</div></div>
+      <button class="retune-btn" onclick="retune()" title="Recompute scoring weights from real booking outcomes">🧠 Retune Weights</button>
+    </div>
+
     <div class="table-wrap" id="table-wrap" style="display:none">
       <table>
         <thead>
@@ -258,8 +241,8 @@
             <th>Score</th>
             <th>Company</th>
             <th>Contact</th>
-            <th>Location</th>
             <th>Signals</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody id="leads-tbody"></tbody>
@@ -275,12 +258,14 @@
         <p>Score: <span id="email-score">—</span></p>
       </div>
       <div class="email-body-text" id="email-body"></div>
-      <button class="copy-btn" onclick="copyEmail()">Copy email</button>
+      <div class="preview-actions">
+        <button class="copy-btn" onclick="copyEmail()">Copy</button>
+        <button class="send-preview-btn" id="send-preview-btn" onclick="sendPreviewLead()">Send this email</button>
+      </div>
     </div>
 
-    <!-- Download -->
     <div id="dl-wrap" style="display:none; text-align:right">
-      <button class="dl-btn" onclick="downloadCSV()">⬇ Download qualified_leads.csv</button>
+      <button class="dl-btn" onclick="downloadCSV()">⬇ Download CSV</button>
     </div>
 
   </div>
@@ -291,231 +276,287 @@
   let pollInterval = null;
   let currentProvider = 'groq';
   let leadsData = [];
-  let selectedRow = null;
+  let previewLeadIdx = null;
 
-  // ── File drops ──────────────────────────────────────────────────────────────
+  // ── File drops ─────────────────────────────────────────────────────────────
   function handleFile(type) {
     const file = document.getElementById(`${type}-file`).files[0];
     if (!file) return;
     document.getElementById(`${type}-name`).textContent = file.name;
     document.getElementById(`${type}-drop`).classList.add('has-file');
   }
-
-  ['csv', 'pitch'].forEach(type => {
+  ['csv','pitch'].forEach(type => {
     const zone = document.getElementById(`${type}-drop`);
     zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
     zone.addEventListener('dragleave', () => zone.classList.remove('over'));
     zone.addEventListener('drop', e => {
-      e.preventDefault();
-      zone.classList.remove('over');
-      const dt = e.dataTransfer;
-      if (dt.files.length) {
-        document.getElementById(`${type}-file`).files = dt.files;
+      e.preventDefault(); zone.classList.remove('over');
+      if (e.dataTransfer.files.length) {
+        document.getElementById(`${type}-file`).files = e.dataTransfer.files;
         handleFile(type);
       }
     });
   });
 
-  // ── LLM toggle ──────────────────────────────────────────────────────────────
+  // ── LLM toggle ─────────────────────────────────────────────────────────────
   function toggleLLM() {
-    const on = document.getElementById('use-llm').checked;
-    document.getElementById('llm-fields').classList.toggle('visible', on);
+    document.getElementById('llm-fields').classList.toggle('visible', document.getElementById('use-llm').checked);
   }
-
-  function setProvider(provider, btn) {
-    currentProvider = provider;
+  function setProvider(p, btn) {
+    currentProvider = p;
     document.querySelectorAll('.provider-tab').forEach(t => t.classList.remove('active'));
     btn.classList.add('active');
-    // Filter model options by provider
-    const select = document.getElementById('llm-model');
-    [...select.options].forEach(opt => {
-      const p = opt.dataset.provider;
-      opt.hidden = p && p !== provider;
-    });
-    select.value = provider === 'deepseek' ? 'deepseek-v4-flash' : 'llama-3.1-8b-instant';
+    [...document.getElementById('llm-model').options].forEach(o => { o.hidden = o.dataset.provider && o.dataset.provider !== p; });
+    document.getElementById('llm-model').value = p === 'deepseek' ? 'deepseek-v4-flash' : 'llama-3.1-8b-instant';
+  }
+  function updateKeyCount() {
+    const keys = document.getElementById('api-key').value.split(/[\n,]+/).map(k => k.trim()).filter(Boolean);
+    const label = document.getElementById('key-count-label');
+    label.textContent = keys.length ? `(${keys.length} key${keys.length > 1 ? 's' : ''} · ${keys.length}× free tier)` : '';
   }
 
-  // ── Run pipeline ─────────────────────────────────────────────────────────────
+  // ── Run pipeline ───────────────────────────────────────────────────────────
   async function runPipeline() {
     const csvFile = document.getElementById('csv-file').files[0];
     if (!csvFile) { alert('Upload a CSV first.'); return; }
-
     const btn = document.getElementById('run-btn');
-    btn.disabled = true;
-    btn.textContent = '⏳ Starting…';
+    btn.disabled = true; btn.textContent = '⏳ Starting…';
+    leadsData = []; previewLeadIdx = null;
 
-    leadsData = [];
-    selectedRow = null;
-    showResultsShell();
-
-    const form = new FormData();
-    form.append('csv_file', csvFile);
-
-    const pitchFile = document.getElementById('pitch-file').files[0];
-    if (pitchFile) form.append('pitch_file', pitchFile);
-
-    form.append('pitch_text',   document.getElementById('pitch-text').value);
-    form.append('threshold',    document.getElementById('threshold').value);
-    form.append('concurrency',  document.getElementById('concurrency').value);
-    form.append('api_keys',     document.getElementById('use-llm').checked ? document.getElementById('api-key').value : '');
-    form.append('provider',     currentProvider);
-    form.append('model',        document.getElementById('llm-model').value);
-
-    try {
-      const res = await fetch('/api/run', { method: 'POST', body: form });
-      const data = await res.json();
-      if (data.error) { alert(data.error); resetBtn(); return; }
-      currentJobId = data.job_id;
-      document.getElementById('stat-total').textContent = data.total;
-      document.getElementById('job-status-badge').textContent = `Job ${data.job_id} · running`;
-      startPolling();
-    } catch (e) {
-      alert('Failed to start: ' + e.message);
-      resetBtn();
-    }
-  }
-
-  function showResultsShell() {
     document.getElementById('empty-state').style.display = 'none';
     document.getElementById('stats').style.display = 'grid';
     document.getElementById('progress-wrap').style.display = 'block';
     document.getElementById('table-wrap').style.display = 'none';
     document.getElementById('email-preview').style.display = 'none';
     document.getElementById('dl-wrap').style.display = 'none';
-    setProgress(0, 0, 'Starting research…');
+    document.getElementById('outcome-bar').style.display = 'none';
+    setProgress(0, 'Starting research…');
+
+    const form = new FormData();
+    form.append('csv_file', csvFile);
+    const pitchFile = document.getElementById('pitch-file').files[0];
+    if (pitchFile) form.append('pitch_file', pitchFile);
+    form.append('pitch_text',   document.getElementById('pitch-text').value);
+    form.append('threshold',    document.getElementById('threshold').value);
+    form.append('concurrency',  document.getElementById('concurrency').value);
+    form.append('api_keys',     document.getElementById('use-llm').checked ? document.getElementById('api-key').value : '');
+    form.append('provider',     currentProvider);
+    form.append('model',        document.getElementById('llm-model').value);
+    form.append('from_email',   document.getElementById('from-email').value);
+
+    try {
+      const res = await fetch('/api/run', { method:'POST', body:form });
+      const data = await res.json();
+      if (data.error) { alert(data.error); resetBtn(); return; }
+      currentJobId = data.job_id;
+      document.getElementById('stat-total').textContent = data.total;
+      document.getElementById('job-status-badge').textContent = `Job ${data.job_id}`;
+      pollInterval = setInterval(poll, 1500);
+    } catch(e) { alert('Failed: ' + e.message); resetBtn(); }
   }
 
-  // ── Polling ──────────────────────────────────────────────────────────────────
-  function startPolling() {
-    pollInterval = setInterval(poll, 1500);
-  }
-
+  // ── Polling ────────────────────────────────────────────────────────────────
   async function poll() {
     if (!currentJobId) return;
-    try {
-      const res = await fetch(`/api/status/${currentJobId}`);
-      const data = await res.json();
+    const res = await fetch(`/api/status/${currentJobId}`);
+    const data = await res.json();
+    const pct = data.total > 0 ? Math.round(data.progress / data.total * 100) : 0;
+    const tag = data.using_llm ? ` · AI ${data.key_count} key${data.key_count>1?'s':''}` : ' · heuristic';
+    setProgress(pct, `Researching${tag}…`);
+    document.getElementById('stat-done').textContent = data.progress;
+    document.getElementById('stat-qualified').textContent = data.qualified;
+    const rate = data.progress > 0 ? Math.round(data.qualified / data.progress * 100) : 0;
+    document.getElementById('stat-rate').textContent = rate + '%';
 
-      const pct = data.total > 0 ? Math.round((data.progress / data.total) * 100) : 0;
-      const llmTag = data.using_llm ? ` (AI · ${data.key_count} key${data.key_count > 1 ? 's' : ''})` : ' (heuristic)';
-      setProgress(pct, data.progress, `Researching contacts${llmTag}…`);
-
-      document.getElementById('stat-done').textContent = data.progress;
-      document.getElementById('stat-qualified').textContent = data.qualified;
-      const rate = data.progress > 0 ? Math.round((data.qualified / data.progress) * 100) : 0;
-      document.getElementById('stat-rate').textContent = rate + '%';
-
-      if (data.leads && data.leads.length !== leadsData.length) {
-        leadsData = data.leads;
-        renderTable(leadsData);
-      }
-
-      if (data.status === 'done') {
-        clearInterval(pollInterval);
-        setProgress(100, data.total, `Done — ${data.qualified} qualified leads`);
-        document.getElementById('dl-wrap').style.display = 'block';
-        document.getElementById('run-btn').disabled = false;
-        document.getElementById('run-btn').textContent = '▶ Run Pipeline';
-        document.getElementById('job-status-badge').textContent = `Job ${currentJobId} · done`;
-      }
-    } catch (e) {
-      console.error('poll error', e);
+    if (data.leads && data.leads.length !== leadsData.length) {
+      leadsData = data.leads;
+      renderTable(leadsData);
+    }
+    if (data.status === 'done') {
+      clearInterval(pollInterval);
+      setProgress(100, `Done — ${data.qualified} qualified leads`);
+      document.getElementById('dl-wrap').style.display = 'block';
+      document.getElementById('outcome-bar').style.display = 'flex';
+      document.getElementById('run-btn').disabled = false;
+      document.getElementById('run-btn').textContent = '▶ Run Pipeline';
+      document.getElementById('job-status-badge').textContent = `Job ${currentJobId} · done`;
+      loadOutcomeStats();
     }
   }
 
-  function setProgress(pct, done, label) {
+  function setProgress(pct, label) {
     document.getElementById('progress-fill').style.width = pct + '%';
     document.getElementById('progress-pct').textContent = pct + '%';
     document.getElementById('progress-text').textContent = label;
   }
 
-  // ── Table ────────────────────────────────────────────────────────────────────
+  // ── Table ──────────────────────────────────────────────────────────────────
   function renderTable(leads) {
     if (!leads.length) return;
     document.getElementById('table-wrap').style.display = 'block';
-
     const tbody = document.getElementById('leads-tbody');
     tbody.innerHTML = '';
-
     leads.forEach((lead, i) => {
       const tr = document.createElement('tr');
-      tr.className = 'clickable';
-      tr.onclick = () => selectLead(lead, tr);
-
-      const scoreClass = lead.score >= 8 ? 'score-high' : lead.score >= 6 ? 'score-mid' : 'score-low';
-      const signals = buildSignalPills(lead);
-
+      const sc = lead.score >= 8 ? 'score-high' : lead.score >= 6 ? 'score-mid' : 'score-low';
+      const outcomeChip = lead.outcome && lead.outcome !== 'pending'
+        ? `<span class="outcome-chip chip-${lead.outcome}">${lead.outcome}</span>` : '';
+      const signals = buildPills(lead);
       tr.innerHTML = `
-        <td><span class="score-badge ${scoreClass}">${lead.score}/10</span></td>
+        <td><span class="score-badge ${sc}">${lead.score}/10</span></td>
         <td>
-          <div style="font-weight:500">${esc(lead.company || '—')}</div>
-          ${lead.website ? `<div style="font-size:11px;color:var(--blue)">${esc(lead.website)}</div>` : ''}
+          <div style="font-weight:500">${esc(lead.company||'—')}</div>
+          ${lead.website?`<div style="font-size:11px;color:var(--blue)">${esc(lead.website)}</div>`:''}
         </td>
         <td>
-          <div>${esc(lead.name || '—')}</div>
-          ${lead.email ? `<div style="font-size:11px;color:var(--muted)">${esc(lead.email)}</div>` : ''}
+          <div>${esc(lead.name||'—')}</div>
+          ${lead.email?`<div style="font-size:11px;color:var(--muted)">${esc(lead.email)}</div>`:''}
+          ${outcomeChip}
         </td>
-        <td style="font-size:12px;color:var(--muted)">${esc([lead.city, lead.country].filter(Boolean).join(', ') || '—')}</td>
         <td>${signals}</td>
-      `;
+        <td><div class="action-btns" id="actions-${i}"></div></td>`;
       tbody.appendChild(tr);
+      renderRowActions(i, lead);
     });
   }
 
-  function buildSignalPills(lead) {
-    const pills = [];
-    if (lead.fb_ads_active)        pills.push(`FB ads${lead.fb_ads_count ? ' (' + lead.fb_ads_count + ')' : ''}`);
-    if (lead.has_lead_form)        pills.push('lead form');
-    if (lead.hiring_relevant_role) pills.push('hiring: ' + (lead.relevant_job_title || 'intake role'));
-    if (!lead.has_booking_widget)  pills.push('no booking');
-    if (!lead.has_chat_widget)     pills.push('no chat');
-    return pills.map(p => `<span class="signal-pill">${esc(p)}</span>`).join('');
+  function renderRowActions(i, lead) {
+    const wrap = document.getElementById(`actions-${i}`);
+    wrap.innerHTML = '';
+    const outcome = lead.outcome || 'pending';
+
+    const preview = mkBtn('act-preview', 'Preview', () => selectLead(lead, i));
+    wrap.appendChild(preview);
+
+    if (outcome === 'pending') {
+      const send = mkBtn('act-send', 'Send', () => sendLead(i));
+      const skip = mkBtn('act-skip', 'Skip', () => setOutcome(i, 'skipped'));
+      wrap.appendChild(send); wrap.appendChild(skip);
+    } else if (outcome === 'sent') {
+      const replied = mkBtn('act-replied', 'Replied', () => setOutcome(i, 'replied'));
+      const booked = mkBtn('act-booked', '🎉 Booked', () => setOutcome(i, 'booked'));
+      wrap.appendChild(replied); wrap.appendChild(booked);
+    } else if (outcome === 'replied') {
+      const booked = mkBtn('act-booked', '🎉 Booked', () => setOutcome(i, 'booked'));
+      wrap.appendChild(booked);
+    }
   }
 
-  function selectLead(lead, tr) {
-    if (selectedRow) selectedRow.classList.remove('selected');
-    tr.classList.add('selected');
-    selectedRow = tr;
+  function mkBtn(cls, label, fn) {
+    const b = document.createElement('button');
+    b.className = `act ${cls}`; b.textContent = label; b.onclick = fn;
+    return b;
+  }
 
-    const preview = document.getElementById('email-preview');
-    preview.style.display = 'block';
+  function buildPills(lead) {
+    const p = [];
+    if (lead.fb_ads_active) p.push(`FB ads${lead.fb_ads_count?' ('+lead.fb_ads_count+')':''}`);
+    if (lead.has_lead_form)  p.push('lead form');
+    if (lead.hiring_relevant_role) p.push('hiring: '+(lead.relevant_job_title||'role'));
+    if (!lead.has_booking_widget) p.push('no booking');
+    if (!lead.has_chat_widget)    p.push('no chat');
+    return p.map(t=>`<span class="signal-pill">${esc(t)}</span>`).join('');
+  }
+
+  // ── Preview ────────────────────────────────────────────────────────────────
+  function selectLead(lead, idx) {
+    previewLeadIdx = idx;
+    document.getElementById('email-preview').style.display = 'block';
     document.getElementById('email-to').textContent = lead.email || '(no email)';
     document.getElementById('email-subject').textContent = lead.email_subject || '—';
     document.getElementById('email-score').textContent = `${lead.score}/10 — ${lead.score_reason}`;
     document.getElementById('email-body').textContent = lead.email_body || '—';
   }
 
-  // ── Copy + Download ──────────────────────────────────────────────────────────
+  // ── Send ───────────────────────────────────────────────────────────────────
+  async function sendLead(idx) {
+    const resendKey = document.getElementById('resend-key').value;
+    const fromEmail = document.getElementById('from-email').value;
+    if (!resendKey) { alert('Add your Resend API key in the Sending section first.'); return; }
+    if (!fromEmail) { alert('Add your From email address first.'); return; }
+    const lead = leadsData[idx];
+    if (!lead.email) { alert('This lead has no email address.'); return; }
+
+    const res = await fetch(`/api/send/${currentJobId}/${idx}`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ resend_key: resendKey, from_email: fromEmail }),
+    });
+    const data = await res.json();
+    if (data.error) { alert('Send failed: ' + data.error); return; }
+    leadsData[idx].outcome = 'sent';
+    updateRow(idx);
+  }
+
+  async function sendPreviewLead() {
+    if (previewLeadIdx !== null) await sendLead(previewLeadIdx);
+  }
+
+  async function setOutcome(idx, outcome) {
+    await fetch(`/api/outcome/${currentJobId}/${idx}`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ outcome }),
+    });
+    leadsData[idx].outcome = outcome;
+    updateRow(idx);
+    loadOutcomeStats();
+  }
+
+  function updateRow(idx) {
+    const lead = leadsData[idx];
+    const outcome = lead.outcome || 'pending';
+    // Update outcome chip in name cell
+    const tr = document.getElementById('leads-tbody').rows[idx];
+    if (!tr) return;
+    const nameCell = tr.cells[2];
+    let chip = nameCell.querySelector('.outcome-chip');
+    if (!chip) { chip = document.createElement('span'); nameCell.appendChild(chip); }
+    chip.className = `outcome-chip chip-${outcome}`;
+    chip.textContent = outcome;
+    renderRowActions(idx, lead);
+  }
+
+  // ── Outcome stats + retune ─────────────────────────────────────────────────
+  async function loadOutcomeStats() {
+    const res = await fetch('/api/stats');
+    const data = await res.json();
+    document.getElementById('ob-sent').textContent    = data.sent    || 0;
+    document.getElementById('ob-replied').textContent = data.replied || 0;
+    document.getElementById('ob-booked').textContent  = data.booked  || 0;
+    const b = data.booked || 0;
+    const s = (data.sent || 0) + (data.replied || 0) + b;
+    document.getElementById('ob-rate').textContent = s > 0 ? Math.round(b/s*100)+'%' : '—';
+  }
+
+  async function retune() {
+    const res = await fetch('/api/retune', { method:'POST' });
+    const data = await res.json();
+    if (data.error) { alert(data.error); return; }
+    const w = data.weights;
+    const msg = Object.entries(w).map(([k,v]) => `${k}: ${v}`).join('\n');
+    alert(`✅ Weights updated for this session:\n\n${msg}\n\nNext pipeline run will use these.`);
+  }
+
+  // ── Copy + download ────────────────────────────────────────────────────────
   function copyEmail() {
-    const subject = document.getElementById('email-subject').textContent;
-    const body = document.getElementById('email-body').textContent;
-    navigator.clipboard.writeText(`Subject: ${subject}\n\n${body}`);
+    const s = document.getElementById('email-subject').textContent;
+    const b = document.getElementById('email-body').textContent;
+    navigator.clipboard.writeText(`Subject: ${s}\n\n${b}`);
     const btn = document.querySelector('.copy-btn');
-    btn.textContent = 'Copied!';
-    setTimeout(() => btn.textContent = 'Copy email', 2000);
+    btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 2000);
   }
 
   function downloadCSV() {
-    if (!currentJobId) return;
-    window.location.href = `/api/download/${currentJobId}`;
+    if (currentJobId) window.location.href = `/api/download/${currentJobId}`;
   }
 
-  // ── Utils ────────────────────────────────────────────────────────────────────
   function esc(s) {
-    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
-
-  function updateKeyCount() {
-    const raw = document.getElementById('api-key').value;
-    const keys = raw.split(/[\n,]+/).map(k => k.trim()).filter(Boolean);
-    const label = document.getElementById('key-count-label');
-    label.textContent = keys.length ? `(${keys.length} key${keys.length > 1 ? 's' : ''} · ${keys.length}× free tier)` : '';
-  }
-
   function resetBtn() {
     const btn = document.getElementById('run-btn');
-    btn.disabled = false;
-    btn.textContent = '▶ Run Pipeline';
+    btn.disabled = false; btn.textContent = '▶ Run Pipeline';
   }
 </script>
 </body>

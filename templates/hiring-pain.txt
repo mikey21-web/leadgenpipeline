@@ -1,0 +1,13 @@
+Subject: Re: {{JOB_TITLE}} at {{COMPANY}}
+
+Hey {{FIRST_NAME}},
+
+Saw {{COMPANY}} is hiring for a {{JOB_TITLE}} — tells me inbound is getting harder to keep up with manually.
+
+Before committing to that hire (typically $40–60K/year fully loaded), might be worth a look at what we built: an AI voice agent that handles exactly that role. Calls leads instantly, qualifies them, books appointments — 24/7, no sick days, no training time.
+
+Not trying to talk you out of hiring if you need the headcount. But for businesses at {{COMPANY}}'s stage, a lot of teams find this covers 80% of what that role would do at a fraction of the cost.
+
+Happy to do a 10-minute demo before you finalize the hire?
+
+{{SENDER_NAME}}

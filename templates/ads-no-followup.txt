@@ -1,0 +1,13 @@
+Subject: Quick question for {{FIRST_NAME}}
+
+Hey {{FIRST_NAME}},
+
+Noticed {{COMPANY}} is running {{AD_PLATFORM}} ads — which means you're actively paying to bring leads in.
+
+The problem most {{INDUSTRY}} businesses run into at that stage: leads come in faster than anyone can follow up. Response time drops, leads go cold, ad spend goes to waste.
+
+We built an AI voice agent that calls every new lead within 5 seconds of them submitting — qualifies them, answers basic questions, and books the appointment. Runs 24/7 without anyone on the team lifting a finger.
+
+Worth a 15-min call to see if it fits what you're doing at {{COMPANY}}?
+
+{{SENDER_NAME}}
